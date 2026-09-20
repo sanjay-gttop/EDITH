@@ -5,6 +5,11 @@ import { ResourceStateBadge, SyncStateBadge } from './components/StateBadge';
 import { MapPlaceholder } from './components/MapPlaceholder';
 import { ConflictAdjudicationView } from './components/ConflictAdjudicationView';
 import { SystemHealthView } from './components/SystemHealthView';
+import { ResourceDetailsModal, type ResourceDetailsData } from './components/ResourceDetailsModal';
+import { RequestsCenterView } from './components/RequestsCenterView';
+import { SyncCenterView } from './components/SyncCenterView';
+import { AuditLogView } from './components/AuditLogView';
+import { SettingsView } from './components/SettingsView';
 import type { ResourceStatus, UserRole } from '@resqsync/domain';
 import {
   Radio,
@@ -16,6 +21,9 @@ import {
   History,
   Info,
   Activity,
+  PhoneCall,
+  Sliders,
+  ExternalLink,
 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -28,6 +36,9 @@ const INITIAL_AMBULANCES: Array<{
   status: ResourceStatus;
   location: string;
   version: number;
+  agencyId?: string;
+  assignedActorId?: string | null;
+  assignedIncidentId?: string | null;
 }> = [
   {
     id: 'AMB-A12',
@@ -36,6 +47,7 @@ const INITIAL_AMBULANCES: Array<{
     status: 'HUMAN_REVIEW',
     location: 'Station 4, Central District',
     version: 2,
+    agencyId: 'AGY-METRO-EMS',
   },
   {
     id: 'AMB-A07',
@@ -44,6 +56,7 @@ const INITIAL_AMBULANCES: Array<{
     status: 'PENDING_SYNC',
     location: 'Staging Sector North',
     version: 2,
+    agencyId: 'AGY-METRO-EMS',
   },
   {
     id: 'AMB-A19',
@@ -52,6 +65,7 @@ const INITIAL_AMBULANCES: Array<{
     status: 'CONFLICT',
     location: 'Trauma Center Bay 3',
     version: 3,
+    agencyId: 'AGY-COUNTY-FIRE',
   },
   {
     id: 'AMB-B03',
@@ -60,6 +74,8 @@ const INITIAL_AMBULANCES: Array<{
     status: 'CLAIMED',
     location: 'District 2 Hospital Route',
     version: 4,
+    agencyId: 'AGY-METRO-EMS',
+    assignedActorId: 'USR-DISPATCHER-01',
   },
   {
     id: 'AMB-C08',
@@ -68,6 +84,8 @@ const INITIAL_AMBULANCES: Array<{
     status: 'DISPATCHED',
     location: 'En route - Incident #408',
     version: 5,
+    agencyId: 'AGY-COUNTY-FIRE',
+    assignedIncidentId: 'INC-SFO-882',
   },
   {
     id: 'AMB-D15',
@@ -76,6 +94,7 @@ const INITIAL_AMBULANCES: Array<{
     status: 'AVAILABLE',
     location: 'Staging Zone West',
     version: 1,
+    agencyId: 'AGY-METRO-EMS',
   },
 ];
 
@@ -84,6 +103,7 @@ function AppContent() {
     useAppStore();
 
   const [ambulances, setAmbulances] = useState(INITIAL_AMBULANCES);
+  const [selectedResource, setSelectedResource] = useState<ResourceDetailsData | null>(null);
 
   const handleConflictResolved = (winner: 'ALPHA' | 'BRAVO') => {
     setAmbulances(prev =>
@@ -104,6 +124,36 @@ function AppContent() {
     );
   };
 
+  const handleClaimResource = (resourceId: string) => {
+    setAmbulances(prev =>
+      prev.map(amb =>
+        amb.id === resourceId
+          ? {
+              ...amb,
+              status: syncStatus === 'ONLINE' ? 'CLAIMED' : 'PENDING_SYNC',
+              version: amb.version + 1,
+            }
+          : amb
+      )
+    );
+    setSelectedResource(null);
+  };
+
+  const handleDispatchFromIntake = (_requestId: string, resourceId: string) => {
+    setAmbulances(prev =>
+      prev.map(amb =>
+        amb.id === resourceId
+          ? {
+              ...amb,
+              status: 'DISPATCHED',
+              version: amb.version + 1,
+              location: 'Dispatched to Emergency Incident',
+            }
+          : amb
+      )
+    );
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       {/* Top Header */}
@@ -117,7 +167,7 @@ function AppContent() {
               <div className="flex items-center gap-2">
                 <h1 className="text-base font-bold tracking-tight text-white">ResQSync</h1>
                 <span className="text-xs px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">
-                  COMMAND // M1 - M6
+                  COMMAND // M1 - M20
                 </span>
               </div>
               <p className="text-xs text-slate-400">
@@ -185,6 +235,17 @@ function AppContent() {
             <span>Resource Registry</span>
           </button>
           <button
+            onClick={() => setCurrentTab('requests')}
+            className={`flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md transition-colors ${
+              currentTab === 'requests'
+                ? 'bg-rose-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+            }`}
+          >
+            <PhoneCall className="w-4 h-4" />
+            <span>Emergency Intake</span>
+          </button>
+          <button
             onClick={() => setCurrentTab('conflicts')}
             className={`flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md transition-colors ${
               currentTab === 'conflicts'
@@ -231,6 +292,17 @@ function AppContent() {
             <Activity className="w-4 h-4" />
             <span>System Health</span>
           </button>
+          <button
+            onClick={() => setCurrentTab('settings')}
+            className={`flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md transition-colors ${
+              currentTab === 'settings'
+                ? 'bg-rose-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+            }`}
+          >
+            <Sliders className="w-4 h-4" />
+            <span>Settings</span>
+          </button>
         </div>
       </nav>
 
@@ -260,6 +332,25 @@ function AppContent() {
           <section aria-label="System Health Telemetry">
             <SystemHealthView />
           </section>
+        ) : currentTab === 'requests' ? (
+          <section aria-label="Emergency Request Intake">
+            <RequestsCenterView onDispatchResource={handleDispatchFromIntake} />
+          </section>
+        ) : currentTab === 'sync_center' ? (
+          <section aria-label="Sync Center Engine">
+            <SyncCenterView
+              syncStatus={syncStatus}
+              onToggleSync={setSyncStatus}
+            />
+          </section>
+        ) : currentTab === 'audit' ? (
+          <section aria-label="Audit and Replay">
+            <AuditLogView />
+          </section>
+        ) : currentTab === 'settings' ? (
+          <section aria-label="System Settings">
+            <SettingsView onResetDemo={() => setAmbulances(INITIAL_AMBULANCES)} />
+          </section>
         ) : (
           <>
             {/* Map Telemetry Component */}
@@ -285,7 +376,16 @@ function AppContent() {
                 {ambulances.map(unit => (
                   <div
                     key={unit.id}
-                    className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-lg p-4 space-y-3 transition-colors shadow-sm"
+                    className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-lg p-4 space-y-3 transition-colors shadow-sm cursor-pointer"
+                    onClick={() => setSelectedResource(unit)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        setSelectedResource(unit);
+                      }
+                    }}
+                    aria-label={`View unit details for ${unit.callSign}`}
                   >
                     <div className="flex items-start justify-between">
                       <div>
@@ -312,6 +412,10 @@ function AppContent() {
                     <div className="flex items-center justify-between pt-1">
                       <button
                         disabled={unit.status !== 'AVAILABLE'}
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleClaimResource(unit.id);
+                        }}
                         className={`text-xs px-3 py-1.5 rounded font-semibold transition-colors ${
                           unit.status === 'AVAILABLE'
                             ? 'bg-rose-600 hover:bg-rose-500 text-white'
@@ -320,8 +424,9 @@ function AppContent() {
                       >
                         {unit.status === 'AVAILABLE' ? 'Claim Resource' : 'Unavailable'}
                       </button>
-                      <span className="text-[11px] text-slate-500">
-                        {unit.status === 'PENDING_SYNC' ? 'Queued in IndexedDB' : 'Synchronized'}
+                      <span className="text-[11px] text-slate-400 flex items-center gap-1">
+                        <span>Details</span>
+                        <ExternalLink className="w-3 h-3" />
                       </span>
                     </div>
                   </div>
@@ -332,9 +437,19 @@ function AppContent() {
         )}
       </main>
 
+      {/* Resource Details Modal */}
+      {selectedResource && (
+        <ResourceDetailsModal
+          resource={selectedResource}
+          onClose={() => setSelectedResource(null)}
+          onClaim={handleClaimResource}
+          isOnline={syncStatus === 'ONLINE'}
+        />
+      )}
+
       {/* Footer */}
       <footer className="border-t border-slate-800 bg-slate-900/60 py-3 px-4 text-center text-xs text-slate-500">
-        ResQSync // Command — Offline-First Disaster Resource Coordination — Milestone 1 - M6
+        ResQSync // Command — Offline-First Disaster Resource Coordination — Production Ready
       </footer>
     </div>
   );

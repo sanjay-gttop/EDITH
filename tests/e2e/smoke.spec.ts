@@ -13,7 +13,7 @@ test.describe('ResQSync // Command - Milestone 1 Smoke Tests', () => {
     const brand = page.getByRole('heading', { name: 'ResQSync' });
     await expect(brand).toBeVisible();
 
-    const commandBadge = page.locator('text=COMMAND // M1');
+    const commandBadge = page.getByText(/COMMAND \/\//i);
     await expect(commandBadge).toBeVisible();
 
     // Verify offline consistency guarantee banner

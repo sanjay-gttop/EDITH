@@ -9,6 +9,10 @@ build/
 out/
 .next/
 *.tsbuildinfo
+apps/web/src/**/*.js
+apps/web/src/**/*.js.map
+apps/web/src/**/*.d.ts
+apps/web/src/**/*.d.ts.map
 
 # CDK Assets & Outputs
 cdk.out/

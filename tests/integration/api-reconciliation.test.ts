@@ -151,13 +151,16 @@ describe('Milestone 15: End-to-End AWS Workload Integration & Reconciliation Sui
     expect(intakeResponse.statusCode).toBe(201);
     const intakeBody = JSON.parse(intakeResponse.body);
     const requestData: Request = {
+      request_id: intakeBody.incident_id,
       incident_id: intakeBody.incident_id,
       severity: 'CRITICAL',
       location: { latitude: 37.7749, longitude: -122.4194 },
       reporting_channel: 'WEB',
       status: 'PENDING',
+      assigned_resource_id: null,
       notes: 'Multi-vehicle collision with trapped passengers requiring ALS units',
       created_at: intakeBody.created_at,
+      updated_at: intakeBody.created_at,
     };
 
     // Invoke SageMaker AI Recommendation

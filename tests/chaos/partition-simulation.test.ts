@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import {
   detectConflict,
   applyConflictResolution,
-  createConflict,
   transitionResourceState,
   type Resource,
   type OfflineEvent,
