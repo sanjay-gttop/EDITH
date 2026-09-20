@@ -4,6 +4,7 @@ import { useAppStore } from './stores/useAppStore';
 import { ResourceStateBadge, SyncStateBadge } from './components/StateBadge';
 import { MapPlaceholder } from './components/MapPlaceholder';
 import { ConflictAdjudicationView } from './components/ConflictAdjudicationView';
+import { SystemHealthView } from './components/SystemHealthView';
 import type { ResourceStatus, UserRole } from '@resqsync/domain';
 import {
   Radio,
@@ -14,6 +15,7 @@ import {
   Layers,
   History,
   Info,
+  Activity,
 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -218,6 +220,17 @@ function AppContent() {
             <History className="w-4 h-4" />
             <span>Audit & Replay</span>
           </button>
+          <button
+            onClick={() => setCurrentTab('system_health')}
+            className={`flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md transition-colors ${
+              currentTab === 'system_health'
+                ? 'bg-rose-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+            }`}
+          >
+            <Activity className="w-4 h-4" />
+            <span>System Health</span>
+          </button>
         </div>
       </nav>
 
@@ -242,6 +255,10 @@ function AppContent() {
               userRole={userRole}
               onResolved={handleConflictResolved}
             />
+          </section>
+        ) : currentTab === 'system_health' ? (
+          <section aria-label="System Health Telemetry">
+            <SystemHealthView />
           </section>
         ) : (
           <>

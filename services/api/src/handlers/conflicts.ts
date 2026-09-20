@@ -7,6 +7,7 @@ import {
 import { successResponse, errorResponse } from '../utils/response';
 import { ValidationError, NotFoundError, ForbiddenError, ConflictError } from '../utils/errors';
 import { logger } from '../utils/logger';
+import { metrics } from '../utils/metrics';
 import { getConflict, getAllConflicts, saveConflict } from '../stores/authoritativeStore';
 
 export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
@@ -73,6 +74,7 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
       // Persist in authoritative store
       saveConflict(updatedConflict, updatedResource);
+      metrics.recordResolution(conflictId, input.action);
 
       logger.info('Conflict resolved successfully', {
         correlation_id: correlationId,
@@ -124,6 +126,7 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
       { correlationId },
     );
   } catch (error) {
+    metrics.recordLambdaError('conflictsHandler', (error as Error).name);
     return errorResponse(error, correlationId);
   }
 }

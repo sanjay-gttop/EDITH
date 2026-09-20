@@ -9,6 +9,7 @@ import {
 import { successResponse, errorResponse } from '../utils/response';
 import { ValidationError } from '../utils/errors';
 import { logger } from '../utils/logger';
+import { metrics } from '../utils/metrics';
 import {
   getResource,
   setResource,
@@ -90,6 +91,7 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
         };
 
         saveConflict(conflictEval.conflict, updatedResource);
+        metrics.recordClaimConflict(ev.resource_id, conflictEval.conflict.conflict_id);
 
         logger.warn('Conflict detected during sync batch', {
           correlation_id: correlationId,
@@ -153,6 +155,8 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
       };
     });
 
+    metrics.recordSyncSuccess(results.length, 24);
+
     return successResponse(
       {
         device_id: batch.device_id,
@@ -164,6 +168,7 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
       { correlationId },
     );
   } catch (error) {
+    metrics.recordLambdaError('syncHandler', (error as Error).name);
     return errorResponse(error, correlationId);
   }
 }

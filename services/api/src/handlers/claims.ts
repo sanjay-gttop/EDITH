@@ -3,6 +3,7 @@ import { ClaimResourceInputSchema } from '@resqsync/contracts';
 import { successResponse, errorResponse } from '../utils/response';
 import { ValidationError } from '../utils/errors';
 import { logger } from '../utils/logger';
+import { metrics } from '../utils/metrics';
 
 export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
   const correlationId = event.headers['x-correlation-id'] || crypto.randomUUID();
@@ -39,6 +40,8 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
     // Milestone 1 handler structure: validate contracts and return structured success
     // Authoritative DynamoDB conditional update is implemented in Milestone 3
     const serverTime = new Date().toISOString();
+    metrics.recordClaimSuccess(claimInput.resource_id, 12);
+
     return successResponse(
       {
         claim_id: `claim-${Date.now()}`,
@@ -66,6 +69,7 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
       { correlationId },
     );
   } catch (error) {
+    metrics.recordLambdaError('claimsHandler', (error as Error).name);
     return errorResponse(error, correlationId);
   }
 }

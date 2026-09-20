@@ -1,4 +1,5 @@
 export * from './utils/logger';
+export * from './utils/metrics';
 export * from './utils/errors';
 export * from './utils/response';
 export * from './stores/authoritativeStore';

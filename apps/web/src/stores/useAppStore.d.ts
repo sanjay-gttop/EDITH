@@ -1,5 +1,5 @@
 import type { SyncStatus, UserRole, Resource } from '@resqsync/domain';
-export type NavTab = 'dispatch' | 'resources' | 'conflicts' | 'sync_center' | 'audit';
+export type NavTab = 'dispatch' | 'resources' | 'conflicts' | 'sync_center' | 'audit' | 'system_health' | 'requests' | 'settings';
 interface AppState {
     currentTab: NavTab;
     syncStatus: SyncStatus;

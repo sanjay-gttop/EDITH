@@ -1,3 +1,5 @@
+import type { WorkloadType } from './metrics';
+
 export type LogLevel = 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
 
 export interface LogContext {
@@ -5,16 +7,22 @@ export interface LogContext {
   actor_id?: string;
   resource_id?: string;
   client_event_id?: string;
+  workload_type?: WorkloadType;
+  environment?: string;
   [key: string]: unknown;
 }
 
 export class Logger {
-  constructor(private readonly serviceName: string = 'api-service') {}
+  constructor(
+    private readonly serviceName: string = 'api-service',
+    private readonly defaultWorkload: WorkloadType = 'Lambda',
+  ) {}
 
   private log(level: LogLevel, message: string, context?: LogContext, error?: Error): void {
     const entry = {
       timestamp: new Date().toISOString(),
       service: this.serviceName,
+      workload_type: context?.workload_type || this.defaultWorkload,
       level,
       message,
       context: context || {},
@@ -26,7 +34,7 @@ export class Logger {
           }
         : undefined,
     };
-    // Structured JSON log output for CloudWatch Logs
+    // Structured JSON log output for CloudWatch Logs across all workloads
     console.log(JSON.stringify(entry));
   }
 
@@ -47,4 +55,7 @@ export class Logger {
   }
 }
 
-export const logger = new Logger('resqsync-api');
+export const logger = new Logger('resqsync-api', 'Lambda');
+export const ecsLogger = new Logger('resqsync-ecs-task', 'ECS');
+export const stepFunctionsLogger = new Logger('resqsync-orchestrator', 'StepFunctions');
+export const sagemakerLogger = new Logger('resqsync-ai-service', 'SageMaker');
