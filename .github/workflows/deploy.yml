@@ -1,0 +1,59 @@
+name: ResQSync Secure Deployment Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target AWS Deployment Environment'
+        required: true
+        default: 'demo'
+        type: choice
+        options:
+          - demo
+          - prod
+
+permissions:
+  id-token: write # Required for AWS OIDC federation
+  contents: read
+
+jobs:
+  deploy-infrastructure:
+    name: Deploy to AWS (${{ github.event.inputs.environment || 'demo' }})
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'demo' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build all packages and services
+        run: npm run build
+
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+          audience: sts.amazonaws.com
+
+      - name: CDK Diff & Verification
+        run: |
+          npx cdk diff --prefix infra/cdk -c stage=${{ github.event.inputs.environment || 'demo' }}
+
+      - name: CDK Deploy All Stacks
+        run: |
+          npx cdk deploy --all --require-approval never --prefix infra/cdk -c stage=${{ github.event.inputs.environment || 'demo' }}
+
+      - name: Deploy Web Application to S3 & CloudFront
+        run: |
+          echo "Deploying frontend assets to authoritative CloudFront origin..."
+          aws s3 sync apps/web/dist/ s3://resqsync-web-hosting-${{ github.event.inputs.environment || 'demo' }}/ --delete
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
