@@ -1,8 +1,13 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { ResolveConflictInputSchema } from '@resqsync/contracts';
+import {
+  applyConflictResolution,
+  type UserRole,
+} from '@resqsync/domain';
 import { successResponse, errorResponse } from '../utils/response';
-import { ValidationError, NotFoundError } from '../utils/errors';
+import { ValidationError, NotFoundError, ForbiddenError, ConflictError } from '../utils/errors';
 import { logger } from '../utils/logger';
+import { getConflict, getAllConflicts, saveConflict } from '../stores/authoritativeStore';
 
 export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
   const correlationId = event.headers['x-correlation-id'] || crypto.randomUUID();
@@ -10,9 +15,20 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
   const httpMethod = event.httpMethod;
 
   try {
+    // 1. POST /conflicts/{id}/resolve
     if (httpMethod === 'POST' && event.path?.endsWith('/resolve')) {
       if (!conflictId) {
         throw new ValidationError('Conflict ID is required in URL path');
+      }
+
+      // Role check from headers or authorizer context
+      const userRole = (event.headers['x-user-role'] || 'SUPERVISOR').toUpperCase() as UserRole;
+      const actorId = event.headers['x-actor-id'] || 'USR-SUPERVISOR-01';
+
+      if (userRole !== 'SUPERVISOR' && userRole !== 'ADMINISTRATOR') {
+        throw new ForbiddenError(
+          `Actor with role '${userRole}' is not authorized to resolve conflicts. Requires SUPERVISOR or ADMINISTRATOR.`,
+        );
       }
 
       if (!event.body) {
@@ -34,71 +50,74 @@ export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayPr
       }
 
       const input = parseResult.data;
-      logger.info('Conflict resolution submitted', {
+      const existing = getConflict(conflictId);
+
+      if (!existing) {
+        throw new NotFoundError('Conflict', conflictId);
+      }
+
+      if (existing.conflict.status === 'RESOLVED') {
+        throw new ConflictError(`Conflict '${conflictId}' has already been resolved.`);
+      }
+
+      // Apply pure deterministic domain resolution
+      const { updatedResource, updatedConflict, auditEvent } = applyConflictResolution(
+        existing.resource,
+        existing.conflict,
+        input.action,
+        actorId,
+        userRole,
+        input.resolution_notes,
+        input.winning_claim_id,
+      );
+
+      // Persist in authoritative store
+      saveConflict(updatedConflict, updatedResource);
+
+      logger.info('Conflict resolved successfully', {
         correlation_id: correlationId,
         conflict_id: conflictId,
-        winning_claim_id: input.winning_claim_id,
-        target_state: input.target_state,
+        action: input.action,
+        winner: updatedConflict.resolution?.winning_claim_id,
+        audit_event_id: auditEvent.event_id,
       });
 
-      const serverTime = new Date().toISOString();
       return successResponse(
         {
           conflict_id: conflictId,
-          status: 'RESOLVED',
-          resolved_resource: {
-            resource_id: 'AMB-A19',
-            resource_type: 'AMBULANCE_MICU',
-            call_sign: 'Rescue-19',
-            status: input.target_state,
-            version: 4,
-            agency_id: 'AGY-COUNTY-EMS',
-            assigned_incident_id: 'INC-402',
-            assigned_actor_id: 'USR-SUPERVISOR-01',
-            location: {
-              latitude: 37.765,
-              longitude: -122.4312,
-            },
-            updated_at: serverTime,
-          },
-          server_time: serverTime,
+          status: updatedConflict.status,
+          action: input.action,
+          resolved_resource: updatedResource,
+          server_time: new Date().toISOString(),
         },
         200,
         { correlationId },
       );
     }
 
-    // GET single conflict
+    // 2. GET /conflicts/{id}
     if (conflictId) {
       logger.info('Fetch single conflict requested', {
         correlation_id: correlationId,
         conflict_id: conflictId,
       });
 
-      if (!conflictId.startsWith('CONF-')) {
+      const entry = getConflict(conflictId);
+      if (!entry) {
         throw new NotFoundError('Conflict', conflictId);
       }
 
-      return successResponse(
-        {
-          conflict_id: conflictId,
-          resource_id: 'AMB-A19',
-          claim_ids: ['claim-101', 'claim-102'],
-          detected_at: new Date().toISOString(),
-          status: 'UNDER_REVIEW',
-          evidence: [],
-        },
-        200,
-        { correlationId },
-      );
+      return successResponse(entry.conflict, 200, { correlationId });
     }
 
-    // GET list of conflicts
+    // 3. GET /conflicts
     logger.info('List conflicts requested', { correlation_id: correlationId });
+    const allConflicts = getAllConflicts();
+
     return successResponse(
       {
-        conflicts: [],
-        total: 0,
+        conflicts: allConflicts,
+        total: allConflicts.length,
         server_time: new Date().toISOString(),
       },
       200,

@@ -1,6 +1,7 @@
 export * from './utils/logger';
 export * from './utils/errors';
 export * from './utils/response';
+export * from './stores/authoritativeStore';
 export { handler as healthHandler } from './handlers/health';
 export { handler as resourcesHandler } from './handlers/resources';
 export { handler as claimsHandler } from './handlers/claims';

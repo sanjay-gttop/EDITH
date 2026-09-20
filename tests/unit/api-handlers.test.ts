@@ -72,7 +72,7 @@ describe('Lambda API Handlers', () => {
       events: [
         {
           client_event_id: 'evt-01',
-          resource_id: 'AMB-A12',
+          resource_id: 'AMB-B03',
           incident_id: 'INC-402',
           actor_id: 'USR-RESP-01',
           device_id: 'DEV-TAB-01',

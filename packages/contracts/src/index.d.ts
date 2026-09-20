@@ -125,8 +125,8 @@ export declare const CreateRequestInputSchema: z.ZodObject<{
         heading?: number | undefined;
         speed_kmh?: number | undefined;
     };
-    reporting_channel?: "WEB" | "SMS" | "API" | undefined;
     notes?: string | undefined;
+    reporting_channel?: "WEB" | "SMS" | "API" | undefined;
 }>;
 export type CreateRequestInput = z.infer<typeof CreateRequestInputSchema>;
 export declare const CreateRequestResponseSchema: z.ZodObject<{
@@ -198,6 +198,13 @@ export declare const ResourceItemSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     resource_id: string;
     status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+    assigned_actor_id: string | null;
+    assigned_incident_id: string | null;
+    resource_type: string;
+    call_sign: string;
+    version: number;
+    agency_id: string;
+    updated_at: string;
     location: {
         latitude: number;
         longitude: number;
@@ -205,19 +212,19 @@ export declare const ResourceItemSchema: z.ZodObject<{
         heading?: number | undefined;
         speed_kmh?: number | undefined;
     };
-    agency_id: string;
-    resource_type: string;
-    call_sign: string;
-    version: number;
-    assigned_incident_id: string | null;
-    assigned_actor_id: string | null;
-    updated_at: string;
     fuel_percent?: number | undefined;
     equipment_level?: string | undefined;
     _is_demo_seed?: boolean | undefined;
 }, {
     resource_id: string;
     status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+    assigned_actor_id: string | null;
+    assigned_incident_id: string | null;
+    resource_type: string;
+    call_sign: string;
+    version: number;
+    agency_id: string;
+    updated_at: string;
     location: {
         latitude: number;
         longitude: number;
@@ -225,13 +232,6 @@ export declare const ResourceItemSchema: z.ZodObject<{
         heading?: number | undefined;
         speed_kmh?: number | undefined;
     };
-    agency_id: string;
-    resource_type: string;
-    call_sign: string;
-    version: number;
-    assigned_incident_id: string | null;
-    assigned_actor_id: string | null;
-    updated_at: string;
     fuel_percent?: number | undefined;
     equipment_level?: string | undefined;
     _is_demo_seed?: boolean | undefined;
@@ -273,6 +273,13 @@ export declare const ListResourcesResponseSchema: z.ZodObject<{
     }, "strip", z.ZodTypeAny, {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -280,19 +287,19 @@ export declare const ListResourcesResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
     }, {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -300,13 +307,6 @@ export declare const ListResourcesResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
@@ -318,6 +318,13 @@ export declare const ListResourcesResponseSchema: z.ZodObject<{
     resources: {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -325,13 +332,6 @@ export declare const ListResourcesResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
@@ -343,6 +343,13 @@ export declare const ListResourcesResponseSchema: z.ZodObject<{
     resources: {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -350,13 +357,6 @@ export declare const ListResourcesResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
@@ -382,8 +382,8 @@ export declare const ClaimResourceInputSchema: z.ZodObject<{
     incident_id: string;
     device_id: string;
     observed_version: number;
-    channel: "WEB" | "SMS" | "API";
     created_at_client: string;
+    channel: "WEB" | "SMS" | "API";
 }, {
     actor_id: string;
     resource_id: string;
@@ -435,6 +435,13 @@ export declare const ClaimResultResponseSchema: z.ZodObject<{
     }, "strip", z.ZodTypeAny, {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -442,19 +449,19 @@ export declare const ClaimResultResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
     }, {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -462,13 +469,6 @@ export declare const ClaimResultResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
@@ -477,12 +477,19 @@ export declare const ClaimResultResponseSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     resource_id: string;
     status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+    claim_id: string;
     version: number;
     server_time: string;
-    claim_id: string;
     authoritative_state: {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -490,13 +497,6 @@ export declare const ClaimResultResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
@@ -504,12 +504,19 @@ export declare const ClaimResultResponseSchema: z.ZodObject<{
 }, {
     resource_id: string;
     status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+    claim_id: string;
     version: number;
     server_time: string;
-    claim_id: string;
     authoritative_state: {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -517,13 +524,6 @@ export declare const ClaimResultResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
@@ -549,8 +549,8 @@ export declare const OfflineEventContractSchema: z.ZodObject<{
     incident_id: string;
     device_id: string;
     observed_version: number;
-    channel: "WEB" | "SMS" | "API";
     created_at_client: string;
+    channel: "WEB" | "SMS" | "API";
     event_type: "CLAIM" | "DISPATCH" | "RELEASE" | "STATUS_UPDATE";
     payload: Record<string, unknown>;
     sync_status: "PENDING_SYNC" | "CONFLICT" | "ACCEPTED" | "REJECTED";
@@ -561,8 +561,8 @@ export declare const OfflineEventContractSchema: z.ZodObject<{
     incident_id: string;
     device_id: string;
     observed_version: number;
-    channel: "WEB" | "SMS" | "API";
     created_at_client: string;
+    channel: "WEB" | "SMS" | "API";
     event_type: "CLAIM" | "DISPATCH" | "RELEASE" | "STATUS_UPDATE";
     payload: Record<string, unknown>;
     sync_status: "PENDING_SYNC" | "CONFLICT" | "ACCEPTED" | "REJECTED";
@@ -590,8 +590,8 @@ export declare const SyncBatchInputSchema: z.ZodObject<{
         incident_id: string;
         device_id: string;
         observed_version: number;
-        channel: "WEB" | "SMS" | "API";
         created_at_client: string;
+        channel: "WEB" | "SMS" | "API";
         event_type: "CLAIM" | "DISPATCH" | "RELEASE" | "STATUS_UPDATE";
         payload: Record<string, unknown>;
         sync_status: "PENDING_SYNC" | "CONFLICT" | "ACCEPTED" | "REJECTED";
@@ -602,8 +602,8 @@ export declare const SyncBatchInputSchema: z.ZodObject<{
         incident_id: string;
         device_id: string;
         observed_version: number;
-        channel: "WEB" | "SMS" | "API";
         created_at_client: string;
+        channel: "WEB" | "SMS" | "API";
         event_type: "CLAIM" | "DISPATCH" | "RELEASE" | "STATUS_UPDATE";
         payload: Record<string, unknown>;
         sync_status: "PENDING_SYNC" | "CONFLICT" | "ACCEPTED" | "REJECTED";
@@ -618,8 +618,8 @@ export declare const SyncBatchInputSchema: z.ZodObject<{
         incident_id: string;
         device_id: string;
         observed_version: number;
-        channel: "WEB" | "SMS" | "API";
         created_at_client: string;
+        channel: "WEB" | "SMS" | "API";
         event_type: "CLAIM" | "DISPATCH" | "RELEASE" | "STATUS_UPDATE";
         payload: Record<string, unknown>;
         sync_status: "PENDING_SYNC" | "CONFLICT" | "ACCEPTED" | "REJECTED";
@@ -634,8 +634,8 @@ export declare const SyncBatchInputSchema: z.ZodObject<{
         incident_id: string;
         device_id: string;
         observed_version: number;
-        channel: "WEB" | "SMS" | "API";
         created_at_client: string;
+        channel: "WEB" | "SMS" | "API";
         event_type: "CLAIM" | "DISPATCH" | "RELEASE" | "STATUS_UPDATE";
         payload: Record<string, unknown>;
         sync_status: "PENDING_SYNC" | "CONFLICT" | "ACCEPTED" | "REJECTED";
@@ -683,6 +683,13 @@ export declare const SyncEventResultSchema: z.ZodObject<{
     }, "strip", z.ZodTypeAny, {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -690,19 +697,19 @@ export declare const SyncEventResultSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
     }, {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -710,13 +717,6 @@ export declare const SyncEventResultSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
@@ -730,6 +730,13 @@ export declare const SyncEventResultSchema: z.ZodObject<{
     authoritative_resource?: {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -737,13 +744,6 @@ export declare const SyncEventResultSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
@@ -757,6 +757,13 @@ export declare const SyncEventResultSchema: z.ZodObject<{
     authoritative_resource?: {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -764,13 +771,6 @@ export declare const SyncEventResultSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
@@ -821,6 +821,13 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
         }, "strip", z.ZodTypeAny, {
             resource_id: string;
             status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+            assigned_actor_id: string | null;
+            assigned_incident_id: string | null;
+            resource_type: string;
+            call_sign: string;
+            version: number;
+            agency_id: string;
+            updated_at: string;
             location: {
                 latitude: number;
                 longitude: number;
@@ -828,19 +835,19 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
                 heading?: number | undefined;
                 speed_kmh?: number | undefined;
             };
-            agency_id: string;
-            resource_type: string;
-            call_sign: string;
-            version: number;
-            assigned_incident_id: string | null;
-            assigned_actor_id: string | null;
-            updated_at: string;
             fuel_percent?: number | undefined;
             equipment_level?: string | undefined;
             _is_demo_seed?: boolean | undefined;
         }, {
             resource_id: string;
             status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+            assigned_actor_id: string | null;
+            assigned_incident_id: string | null;
+            resource_type: string;
+            call_sign: string;
+            version: number;
+            agency_id: string;
+            updated_at: string;
             location: {
                 latitude: number;
                 longitude: number;
@@ -848,13 +855,6 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
                 heading?: number | undefined;
                 speed_kmh?: number | undefined;
             };
-            agency_id: string;
-            resource_type: string;
-            call_sign: string;
-            version: number;
-            assigned_incident_id: string | null;
-            assigned_actor_id: string | null;
-            updated_at: string;
             fuel_percent?: number | undefined;
             equipment_level?: string | undefined;
             _is_demo_seed?: boolean | undefined;
@@ -868,6 +868,13 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
         authoritative_resource?: {
             resource_id: string;
             status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+            assigned_actor_id: string | null;
+            assigned_incident_id: string | null;
+            resource_type: string;
+            call_sign: string;
+            version: number;
+            agency_id: string;
+            updated_at: string;
             location: {
                 latitude: number;
                 longitude: number;
@@ -875,13 +882,6 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
                 heading?: number | undefined;
                 speed_kmh?: number | undefined;
             };
-            agency_id: string;
-            resource_type: string;
-            call_sign: string;
-            version: number;
-            assigned_incident_id: string | null;
-            assigned_actor_id: string | null;
-            updated_at: string;
             fuel_percent?: number | undefined;
             equipment_level?: string | undefined;
             _is_demo_seed?: boolean | undefined;
@@ -895,6 +895,13 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
         authoritative_resource?: {
             resource_id: string;
             status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+            assigned_actor_id: string | null;
+            assigned_incident_id: string | null;
+            resource_type: string;
+            call_sign: string;
+            version: number;
+            agency_id: string;
+            updated_at: string;
             location: {
                 latitude: number;
                 longitude: number;
@@ -902,13 +909,6 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
                 heading?: number | undefined;
                 speed_kmh?: number | undefined;
             };
-            agency_id: string;
-            resource_type: string;
-            call_sign: string;
-            version: number;
-            assigned_incident_id: string | null;
-            assigned_actor_id: string | null;
-            updated_at: string;
             fuel_percent?: number | undefined;
             equipment_level?: string | undefined;
             _is_demo_seed?: boolean | undefined;
@@ -916,8 +916,8 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
     }>, "many">;
     server_time: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    server_time: string;
     device_id: string;
+    server_time: string;
     processed_count: number;
     results: {
         resource_id: string;
@@ -928,6 +928,13 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
         authoritative_resource?: {
             resource_id: string;
             status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+            assigned_actor_id: string | null;
+            assigned_incident_id: string | null;
+            resource_type: string;
+            call_sign: string;
+            version: number;
+            agency_id: string;
+            updated_at: string;
             location: {
                 latitude: number;
                 longitude: number;
@@ -935,21 +942,14 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
                 heading?: number | undefined;
                 speed_kmh?: number | undefined;
             };
-            agency_id: string;
-            resource_type: string;
-            call_sign: string;
-            version: number;
-            assigned_incident_id: string | null;
-            assigned_actor_id: string | null;
-            updated_at: string;
             fuel_percent?: number | undefined;
             equipment_level?: string | undefined;
             _is_demo_seed?: boolean | undefined;
         } | undefined;
     }[];
 }, {
-    server_time: string;
     device_id: string;
+    server_time: string;
     processed_count: number;
     results: {
         resource_id: string;
@@ -960,6 +960,13 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
         authoritative_resource?: {
             resource_id: string;
             status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+            assigned_actor_id: string | null;
+            assigned_incident_id: string | null;
+            resource_type: string;
+            call_sign: string;
+            version: number;
+            agency_id: string;
+            updated_at: string;
             location: {
                 latitude: number;
                 longitude: number;
@@ -967,13 +974,6 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
                 heading?: number | undefined;
                 speed_kmh?: number | undefined;
             };
-            agency_id: string;
-            resource_type: string;
-            call_sign: string;
-            version: number;
-            assigned_incident_id: string | null;
-            assigned_actor_id: string | null;
-            updated_at: string;
             fuel_percent?: number | undefined;
             equipment_level?: string | undefined;
             _is_demo_seed?: boolean | undefined;
@@ -981,36 +981,64 @@ export declare const SyncBatchResponseSchema: z.ZodObject<{
     }[];
 }>;
 export type SyncBatchResponse = z.infer<typeof SyncBatchResponseSchema>;
+export declare const ConflictResolutionActionEnum: z.ZodEnum<["ASSIGN_TO_ALPHA", "ASSIGN_TO_BRAVO", "REQUEST_INFORMATION"]>;
+export type ConflictResolutionActionType = z.infer<typeof ConflictResolutionActionEnum>;
+export declare const ConflictTimelineEventSchema: z.ZodObject<{
+    step: z.ZodString;
+    timestamp: z.ZodString;
+    actor_id: z.ZodOptional<z.ZodString>;
+    description: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    timestamp: string;
+    step: string;
+    description: string;
+    actor_id?: string | undefined;
+}, {
+    timestamp: string;
+    step: string;
+    description: string;
+    actor_id?: string | undefined;
+}>;
+export type ConflictTimelineEventContract = z.infer<typeof ConflictTimelineEventSchema>;
 export declare const ConflictEvidenceSchema: z.ZodObject<{
     claim_id: z.ZodString;
     actor_id: z.ZodString;
+    team_id: z.ZodOptional<z.ZodString>;
     device_id: z.ZodString;
     client_event_id: z.ZodString;
     created_at_client: z.ZodString;
     received_at_server: z.ZodString;
     channel: z.ZodEnum<["WEB", "SMS", "API"]>;
     observed_version: z.ZodNumber;
+    connectivity_status: z.ZodOptional<z.ZodEnum<["ONLINE", "OFFLINE"]>>;
+    request_id: z.ZodOptional<z.ZodString>;
     payload: z.ZodRecord<z.ZodString, z.ZodUnknown>;
 }, "strip", z.ZodTypeAny, {
     actor_id: string;
     client_event_id: string;
+    claim_id: string;
     device_id: string;
     observed_version: number;
-    channel: "WEB" | "SMS" | "API";
     created_at_client: string;
-    claim_id: string;
+    channel: "WEB" | "SMS" | "API";
     payload: Record<string, unknown>;
     received_at_server: string;
+    team_id?: string | undefined;
+    request_id?: string | undefined;
+    connectivity_status?: "ONLINE" | "OFFLINE" | undefined;
 }, {
     actor_id: string;
     client_event_id: string;
+    claim_id: string;
     device_id: string;
     observed_version: number;
-    channel: "WEB" | "SMS" | "API";
     created_at_client: string;
-    claim_id: string;
+    channel: "WEB" | "SMS" | "API";
     payload: Record<string, unknown>;
     received_at_server: string;
+    team_id?: string | undefined;
+    request_id?: string | undefined;
+    connectivity_status?: "ONLINE" | "OFFLINE" | undefined;
 }>;
 export type ConflictEvidenceContract = z.infer<typeof ConflictEvidenceSchema>;
 export declare const ConflictItemSchema: z.ZodObject<{
@@ -1022,52 +1050,80 @@ export declare const ConflictItemSchema: z.ZodObject<{
     evidence: z.ZodArray<z.ZodObject<{
         claim_id: z.ZodString;
         actor_id: z.ZodString;
+        team_id: z.ZodOptional<z.ZodString>;
         device_id: z.ZodString;
         client_event_id: z.ZodString;
         created_at_client: z.ZodString;
         received_at_server: z.ZodString;
         channel: z.ZodEnum<["WEB", "SMS", "API"]>;
         observed_version: z.ZodNumber;
+        connectivity_status: z.ZodOptional<z.ZodEnum<["ONLINE", "OFFLINE"]>>;
+        request_id: z.ZodOptional<z.ZodString>;
         payload: z.ZodRecord<z.ZodString, z.ZodUnknown>;
     }, "strip", z.ZodTypeAny, {
         actor_id: string;
         client_event_id: string;
+        claim_id: string;
         device_id: string;
         observed_version: number;
-        channel: "WEB" | "SMS" | "API";
         created_at_client: string;
-        claim_id: string;
+        channel: "WEB" | "SMS" | "API";
         payload: Record<string, unknown>;
         received_at_server: string;
+        team_id?: string | undefined;
+        request_id?: string | undefined;
+        connectivity_status?: "ONLINE" | "OFFLINE" | undefined;
     }, {
         actor_id: string;
         client_event_id: string;
+        claim_id: string;
         device_id: string;
         observed_version: number;
-        channel: "WEB" | "SMS" | "API";
         created_at_client: string;
-        claim_id: string;
+        channel: "WEB" | "SMS" | "API";
         payload: Record<string, unknown>;
         received_at_server: string;
+        team_id?: string | undefined;
+        request_id?: string | undefined;
+        connectivity_status?: "ONLINE" | "OFFLINE" | undefined;
     }>, "many">;
+    timeline: z.ZodOptional<z.ZodArray<z.ZodObject<{
+        step: z.ZodString;
+        timestamp: z.ZodString;
+        actor_id: z.ZodOptional<z.ZodString>;
+        description: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        timestamp: string;
+        step: string;
+        description: string;
+        actor_id?: string | undefined;
+    }, {
+        timestamp: string;
+        step: string;
+        description: string;
+        actor_id?: string | undefined;
+    }>, "many">>;
     resolution: z.ZodOptional<z.ZodObject<{
-        winning_claim_id: z.ZodString;
+        action: z.ZodOptional<z.ZodEnum<["ASSIGN_TO_ALPHA", "ASSIGN_TO_BRAVO", "REQUEST_INFORMATION"]>>;
+        winning_claim_id: z.ZodOptional<z.ZodString>;
         resolved_by: z.ZodString;
         resolved_at: z.ZodString;
         notes: z.ZodString;
         target_state: z.ZodEnum<["AVAILABLE", "CLAIMED", "DISPATCHED", "IN_USE", "PENDING_SYNC", "CONFLICT", "HUMAN_REVIEW", "RESOLVED"]>;
     }, "strip", z.ZodTypeAny, {
-        notes: string;
-        winning_claim_id: string;
         resolved_by: string;
         resolved_at: string;
+        notes: string;
         target_state: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        winning_claim_id?: string | undefined;
+        action?: "ASSIGN_TO_ALPHA" | "ASSIGN_TO_BRAVO" | "REQUEST_INFORMATION" | undefined;
     }, {
-        notes: string;
-        winning_claim_id: string;
         resolved_by: string;
         resolved_at: string;
+        notes: string;
         target_state: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        winning_claim_id?: string | undefined;
+        action?: "ASSIGN_TO_ALPHA" | "ASSIGN_TO_BRAVO" | "REQUEST_INFORMATION" | undefined;
     }>>;
 }, "strip", z.ZodTypeAny, {
     resource_id: string;
@@ -1078,20 +1134,30 @@ export declare const ConflictItemSchema: z.ZodObject<{
     evidence: {
         actor_id: string;
         client_event_id: string;
+        claim_id: string;
         device_id: string;
         observed_version: number;
-        channel: "WEB" | "SMS" | "API";
         created_at_client: string;
-        claim_id: string;
+        channel: "WEB" | "SMS" | "API";
         payload: Record<string, unknown>;
         received_at_server: string;
+        team_id?: string | undefined;
+        request_id?: string | undefined;
+        connectivity_status?: "ONLINE" | "OFFLINE" | undefined;
     }[];
+    timeline?: {
+        timestamp: string;
+        step: string;
+        description: string;
+        actor_id?: string | undefined;
+    }[] | undefined;
     resolution?: {
-        notes: string;
-        winning_claim_id: string;
         resolved_by: string;
         resolved_at: string;
+        notes: string;
         target_state: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        winning_claim_id?: string | undefined;
+        action?: "ASSIGN_TO_ALPHA" | "ASSIGN_TO_BRAVO" | "REQUEST_INFORMATION" | undefined;
     } | undefined;
 }, {
     resource_id: string;
@@ -1102,40 +1168,54 @@ export declare const ConflictItemSchema: z.ZodObject<{
     evidence: {
         actor_id: string;
         client_event_id: string;
+        claim_id: string;
         device_id: string;
         observed_version: number;
-        channel: "WEB" | "SMS" | "API";
         created_at_client: string;
-        claim_id: string;
+        channel: "WEB" | "SMS" | "API";
         payload: Record<string, unknown>;
         received_at_server: string;
+        team_id?: string | undefined;
+        request_id?: string | undefined;
+        connectivity_status?: "ONLINE" | "OFFLINE" | undefined;
     }[];
+    timeline?: {
+        timestamp: string;
+        step: string;
+        description: string;
+        actor_id?: string | undefined;
+    }[] | undefined;
     resolution?: {
-        notes: string;
-        winning_claim_id: string;
         resolved_by: string;
         resolved_at: string;
+        notes: string;
         target_state: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        winning_claim_id?: string | undefined;
+        action?: "ASSIGN_TO_ALPHA" | "ASSIGN_TO_BRAVO" | "REQUEST_INFORMATION" | undefined;
     } | undefined;
 }>;
 export type ConflictItem = z.infer<typeof ConflictItemSchema>;
 export declare const ResolveConflictInputSchema: z.ZodObject<{
-    winning_claim_id: z.ZodString;
+    action: z.ZodDefault<z.ZodEnum<["ASSIGN_TO_ALPHA", "ASSIGN_TO_BRAVO", "REQUEST_INFORMATION"]>>;
+    winning_claim_id: z.ZodOptional<z.ZodString>;
     resolution_notes: z.ZodString;
     target_state: z.ZodDefault<z.ZodEnum<["AVAILABLE", "CLAIMED", "DISPATCHED", "IN_USE", "PENDING_SYNC", "CONFLICT", "HUMAN_REVIEW", "RESOLVED"]>>;
 }, "strip", z.ZodTypeAny, {
-    winning_claim_id: string;
     target_state: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+    action: "ASSIGN_TO_ALPHA" | "ASSIGN_TO_BRAVO" | "REQUEST_INFORMATION";
     resolution_notes: string;
+    winning_claim_id?: string | undefined;
 }, {
-    winning_claim_id: string;
     resolution_notes: string;
+    winning_claim_id?: string | undefined;
     target_state?: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED" | undefined;
+    action?: "ASSIGN_TO_ALPHA" | "ASSIGN_TO_BRAVO" | "REQUEST_INFORMATION" | undefined;
 }>;
 export type ResolveConflictInput = z.infer<typeof ResolveConflictInputSchema>;
 export declare const ResolveConflictResponseSchema: z.ZodObject<{
     conflict_id: z.ZodString;
-    status: z.ZodLiteral<"RESOLVED">;
+    status: z.ZodEnum<["UNDER_REVIEW", "RESOLVED"]>;
+    action: z.ZodEnum<["ASSIGN_TO_ALPHA", "ASSIGN_TO_BRAVO", "REQUEST_INFORMATION"]>;
     resolved_resource: z.ZodObject<{
         resource_id: z.ZodString;
         resource_type: z.ZodString;
@@ -1171,6 +1251,13 @@ export declare const ResolveConflictResponseSchema: z.ZodObject<{
     }, "strip", z.ZodTypeAny, {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -1178,19 +1265,19 @@ export declare const ResolveConflictResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
     }, {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -1198,25 +1285,26 @@ export declare const ResolveConflictResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
     }>;
     server_time: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    status: "RESOLVED";
-    server_time: string;
+    status: "RESOLVED" | "UNDER_REVIEW";
+    action: "ASSIGN_TO_ALPHA" | "ASSIGN_TO_BRAVO" | "REQUEST_INFORMATION";
     conflict_id: string;
+    server_time: string;
     resolved_resource: {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -1224,24 +1312,25 @@ export declare const ResolveConflictResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;
     };
 }, {
-    status: "RESOLVED";
-    server_time: string;
+    status: "RESOLVED" | "UNDER_REVIEW";
+    action: "ASSIGN_TO_ALPHA" | "ASSIGN_TO_BRAVO" | "REQUEST_INFORMATION";
     conflict_id: string;
+    server_time: string;
     resolved_resource: {
         resource_id: string;
         status: "AVAILABLE" | "CLAIMED" | "DISPATCHED" | "IN_USE" | "PENDING_SYNC" | "CONFLICT" | "HUMAN_REVIEW" | "RESOLVED";
+        assigned_actor_id: string | null;
+        assigned_incident_id: string | null;
+        resource_type: string;
+        call_sign: string;
+        version: number;
+        agency_id: string;
+        updated_at: string;
         location: {
             latitude: number;
             longitude: number;
@@ -1249,13 +1338,6 @@ export declare const ResolveConflictResponseSchema: z.ZodObject<{
             heading?: number | undefined;
             speed_kmh?: number | undefined;
         };
-        agency_id: string;
-        resource_type: string;
-        call_sign: string;
-        version: number;
-        assigned_incident_id: string | null;
-        assigned_actor_id: string | null;
-        updated_at: string;
         fuel_percent?: number | undefined;
         equipment_level?: string | undefined;
         _is_demo_seed?: boolean | undefined;

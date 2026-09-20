@@ -71,15 +71,25 @@ export interface Request {
     created_at: string;
     updated_at: string;
 }
+export type ConflictResolutionAction = 'ASSIGN_TO_ALPHA' | 'ASSIGN_TO_BRAVO' | 'REQUEST_INFORMATION';
+export interface ConflictTimelineEvent {
+    step: string;
+    timestamp: string;
+    actor_id?: string;
+    description: string;
+}
 export interface ConflictEvidence {
     claim_id: string;
     actor_id: string;
+    team_id?: string;
     device_id: string;
     client_event_id: string;
     created_at_client: string;
     received_at_server: string;
     channel: Channel;
     observed_version: number;
+    connectivity_status?: 'ONLINE' | 'OFFLINE';
+    request_id?: string;
     payload: Record<string, unknown>;
 }
 export interface Conflict {
@@ -89,8 +99,10 @@ export interface Conflict {
     detected_at: string;
     status: 'DETECTED' | 'UNDER_REVIEW' | 'RESOLVED';
     evidence: ConflictEvidence[];
+    timeline?: ConflictTimelineEvent[];
     resolution?: {
-        winning_claim_id: string;
+        action?: ConflictResolutionAction;
+        winning_claim_id?: string;
         resolved_by: string;
         resolved_at: string;
         notes: string;
@@ -181,4 +193,22 @@ export declare function createConflict(resourceId: string, competingEvidence: Co
  * Deterministically resolve a conflict, assigning the winning claim and moving resource to resolved.
  */
 export declare function resolveConflict(conflict: Conflict, winningClaimId: string, resolverActorId: string, notes: string, targetState?: ResourceStatus, resolvedAt?: string): Conflict;
+/**
+ * Pure conflict detection engine.
+ * Evaluates whether an incoming offline sync event or online claim conflicts with authoritative state.
+ * Never silences or discards losing evidence.
+ */
+export declare function detectConflict(authoritativeResource: Resource, incomingEvent: OfflineEvent, serverReceivedAt?: string, existingConflict?: Conflict): {
+    isConflict: boolean;
+    reason?: string;
+    conflict?: Conflict;
+};
+/**
+ * Deterministically apply conflict resolution with complete RBAC and conditional update semantics.
+ */
+export declare function applyConflictResolution(resource: Resource, conflict: Conflict, action: ConflictResolutionAction, resolverActorId: string, resolverRole: UserRole, notes: string, targetClaimId?: string, resolvedAt?: string): {
+    updatedResource: Resource;
+    updatedConflict: Conflict;
+    auditEvent: DomainEvent;
+};
 //# sourceMappingURL=index.d.ts.map

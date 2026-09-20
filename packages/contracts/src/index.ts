@@ -189,15 +189,33 @@ export type SyncBatchResponse = z.infer<typeof SyncBatchResponseSchema>;
 // 6. ENDPOINT: GET & POST /conflicts
 // ============================================================================
 
+export const ConflictResolutionActionEnum = z.enum([
+  'ASSIGN_TO_ALPHA',
+  'ASSIGN_TO_BRAVO',
+  'REQUEST_INFORMATION',
+]);
+export type ConflictResolutionActionType = z.infer<typeof ConflictResolutionActionEnum>;
+
+export const ConflictTimelineEventSchema = z.object({
+  step: z.string(),
+  timestamp: z.string().datetime(),
+  actor_id: z.string().optional(),
+  description: z.string(),
+});
+export type ConflictTimelineEventContract = z.infer<typeof ConflictTimelineEventSchema>;
+
 export const ConflictEvidenceSchema = z.object({
   claim_id: z.string(),
   actor_id: z.string(),
+  team_id: z.string().optional(),
   device_id: z.string(),
   client_event_id: z.string(),
   created_at_client: z.string().datetime(),
   received_at_server: z.string().datetime(),
   channel: ChannelEnum,
   observed_version: z.number().int().nonnegative(),
+  connectivity_status: z.enum(['ONLINE', 'OFFLINE']).optional(),
+  request_id: z.string().optional(),
   payload: z.record(z.unknown()),
 });
 export type ConflictEvidenceContract = z.infer<typeof ConflictEvidenceSchema>;
@@ -209,9 +227,11 @@ export const ConflictItemSchema = z.object({
   detected_at: z.string().datetime(),
   status: z.enum(['DETECTED', 'UNDER_REVIEW', 'RESOLVED']),
   evidence: z.array(ConflictEvidenceSchema),
+  timeline: z.array(ConflictTimelineEventSchema).optional(),
   resolution: z
     .object({
-      winning_claim_id: z.string(),
+      action: ConflictResolutionActionEnum.optional(),
+      winning_claim_id: z.string().optional(),
       resolved_by: z.string(),
       resolved_at: z.string().datetime(),
       notes: z.string(),
@@ -222,7 +242,8 @@ export const ConflictItemSchema = z.object({
 export type ConflictItem = z.infer<typeof ConflictItemSchema>;
 
 export const ResolveConflictInputSchema = z.object({
-  winning_claim_id: z.string().min(1),
+  action: ConflictResolutionActionEnum.default('ASSIGN_TO_ALPHA'),
+  winning_claim_id: z.string().optional(),
   resolution_notes: z.string().min(1).max(2000),
   target_state: ResourceStatusEnum.default('CLAIMED'),
 });
@@ -230,7 +251,8 @@ export type ResolveConflictInput = z.infer<typeof ResolveConflictInputSchema>;
 
 export const ResolveConflictResponseSchema = z.object({
   conflict_id: z.string(),
-  status: z.literal('RESOLVED'),
+  status: z.enum(['UNDER_REVIEW', 'RESOLVED']),
+  action: ConflictResolutionActionEnum,
   resolved_resource: ResourceItemSchema,
   server_time: z.string().datetime(),
 });
