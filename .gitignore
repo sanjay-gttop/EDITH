@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Build and distribution outputs
+dist/
+build/
+out/
+.next/
+*.tsbuildinfo
+
+# CDK Assets & Outputs
+cdk.out/
+.cdk.staging/
+
+# Testing & Coverage
+coverage/
+test-results/
+playwright-report/
+blob-report/
+.nyc_output/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.sublime-project
+*.sublime-workspace

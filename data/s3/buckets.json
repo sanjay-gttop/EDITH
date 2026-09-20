@@ -1,0 +1,22 @@
+{
+  "buckets": [
+    {
+      "name": "resqsync-evidence-archive",
+      "purpose": "Immutable long-term storage for conflicting claim evidence and incident attachments",
+      "versioning": true,
+      "encryption": "aws:kms"
+    },
+    {
+      "name": "resqsync-audit-logs",
+      "purpose": "Replay control plane and CloudTrail audit exports",
+      "versioning": true,
+      "encryption": "aws:kms"
+    },
+    {
+      "name": "resqsync-web-hosting",
+      "purpose": "Static site hosting for the offline-capable PWA web application",
+      "versioning": false,
+      "encryption": "AES256"
+    }
+  ]
+}

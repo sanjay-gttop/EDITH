@@ -1,0 +1,35 @@
+{
+  "name": "resqsync-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ResQSync // Command - Offline-first disaster resource coordination",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "services/*",
+    "infra/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:e2e": "playwright test",
+    "cdk:synth": "npm run synth --prefix infra/cdk",
+    "web:dev": "npm run dev --workspace=apps/web",
+    "web:build": "npm run build --workspace=apps/web"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.9.0",
+    "eslint": "^9.15.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.15.0",
+    "vitest": "^2.1.5"
+  }
+}

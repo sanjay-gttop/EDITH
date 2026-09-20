@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@resqsync/domain": ["packages/domain/src/index.ts"],
+      "@resqsync/contracts": ["packages/contracts/src/index.ts"],
+      "@resqsync/ui": ["packages/ui/src/index.ts"],
+      "@resqsync/offline": ["packages/offline/src/index.ts"]
+    }
+  }
+}

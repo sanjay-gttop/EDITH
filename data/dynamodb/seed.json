@@ -1,0 +1,77 @@
+[
+  {
+    "PK": "RESOURCE#AMB-A12",
+    "SK": "STATE",
+    "GSI1PK": "STATUS#AVAILABLE",
+    "GSI1SK": "UPDATED#2026-09-20T10:00:00.000Z",
+    "resource_id": "AMB-A12",
+    "call_sign": "Medic-12",
+    "resource_type": "AMBULANCE_ALS",
+    "status": "AVAILABLE",
+    "version": 1,
+    "agency_id": "AGY-METRO-EMS",
+    "assigned_incident_id": null,
+    "assigned_actor_id": null,
+    "location": {
+      "latitude": 37.7749,
+      "longitude": -122.4194,
+      "address": "Station 4, Central District",
+      "heading": 90,
+      "speed_kmh": 0
+    },
+    "fuel_percent": 95,
+    "equipment_level": "ADVANCED_LIFE_SUPPORT",
+    "updated_at": "2026-09-20T10:00:00.000Z",
+    "_is_demo_seed": true
+  },
+  {
+    "PK": "RESOURCE#AMB-A07",
+    "SK": "STATE",
+    "GSI1PK": "STATUS#AVAILABLE",
+    "GSI1SK": "UPDATED#2026-09-20T10:05:00.000Z",
+    "resource_id": "AMB-A07",
+    "call_sign": "Medic-07",
+    "resource_type": "AMBULANCE_BLS",
+    "status": "AVAILABLE",
+    "version": 1,
+    "agency_id": "AGY-METRO-EMS",
+    "assigned_incident_id": null,
+    "assigned_actor_id": null,
+    "location": {
+      "latitude": 37.7833,
+      "longitude": -122.4167,
+      "address": "Staging Sector North",
+      "heading": 180,
+      "speed_kmh": 0
+    },
+    "fuel_percent": 82,
+    "equipment_level": "BASIC_LIFE_SUPPORT",
+    "updated_at": "2026-09-20T10:05:00.000Z",
+    "_is_demo_seed": true
+  },
+  {
+    "PK": "RESOURCE#AMB-A19",
+    "SK": "STATE",
+    "GSI1PK": "STATUS#AVAILABLE",
+    "GSI1SK": "UPDATED#2026-09-20T10:10:00.000Z",
+    "resource_id": "AMB-A19",
+    "call_sign": "Rescue-19",
+    "resource_type": "AMBULANCE_MICU",
+    "status": "AVAILABLE",
+    "version": 1,
+    "agency_id": "AGY-COUNTY-EMS",
+    "assigned_incident_id": null,
+    "assigned_actor_id": null,
+    "location": {
+      "latitude": 37.7650,
+      "longitude": -122.4312,
+      "address": "Trauma Center Bay 3",
+      "heading": 270,
+      "speed_kmh": 0
+    },
+    "fuel_percent": 90,
+    "equipment_level": "MOBILE_INTENSIVE_CARE",
+    "updated_at": "2026-09-20T10:10:00.000Z",
+    "_is_demo_seed": true
+  }
+]
