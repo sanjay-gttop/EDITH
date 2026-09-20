@@ -15,6 +15,11 @@ import { SimulationStack } from '../lib/simulation-stack';
 
 const app = new cdk.App();
 
+const stage =
+  (app.node.tryGetContext('stage') as 'dev' | 'demo' | 'prod') ||
+  (process.env.STAGE as 'dev' | 'demo' | 'prod') ||
+  'demo';
+
 const env: cdk.Environment = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
   region: process.env.CDK_DEFAULT_REGION || 'us-east-1',
@@ -24,16 +29,16 @@ const env: cdk.Environment = {
 const networkStack = new NetworkStack(app, 'ResQSyncNetworkStack', { env });
 
 // 2. Auth Stack (Cognito User Pool, App Client, Groups)
-new AuthStack(app, 'ResQSyncAuthStack', { env });
+new AuthStack(app, 'ResQSyncAuthStack', { env, stage });
 
 // 3. Edge Stack (CloudFront, S3 Website)
-new EdgeStack(app, 'ResQSyncEdgeStack', { env });
+new EdgeStack(app, 'ResQSyncEdgeStack', { env, stage });
 
 // 4. Data Stack (Authoritative DynamoDB Single-Table, S3 Evidence)
-const dataStack = new DataStack(app, 'ResQSyncDataStack', { env });
+const dataStack = new DataStack(app, 'ResQSyncDataStack', { env, stage });
 
-// 5. Events Stack (EventBridge Bus, DLQ, SNS)
-new EventsStack(app, 'ResQSyncEventsStack', { env });
+// 5. Events Stack (EventBridge Bus, SQS FIFO Sync Queue, DLQ, SNS)
+new EventsStack(app, 'ResQSyncEventsStack', { env, stage });
 
 // 6. Compute Stack (Lambda Execution Role, Core Lambda Handler)
 const computeStack = new ComputeStack(app, 'ResQSyncComputeStack', {
@@ -45,6 +50,7 @@ const computeStack = new ComputeStack(app, 'ResQSyncComputeStack', {
 new ApiStack(app, 'ResQSyncApiStack', {
   env,
   apiLambda: computeStack.apiLambda,
+  stage,
 });
 
 // 8. AI Stack (SageMaker Role & Configuration)
@@ -61,5 +67,10 @@ new ContainersStack(app, 'ResQSyncContainersStack', {
 
 // 11. Simulation Stack (Chaos & Partition Parameters)
 new SimulationStack(app, 'ResQSyncSimulationStack', { env });
+
+// Add global tags
+cdk.Tags.of(app).add('Project', 'ResQSync');
+cdk.Tags.of(app).add('Environment', stage);
+cdk.Tags.of(app).add('ManagedBy', 'AWS-CDK');
 
 app.synth();

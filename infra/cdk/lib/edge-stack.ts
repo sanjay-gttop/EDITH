@@ -4,21 +4,29 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import { Construct } from 'constructs';
 
+export interface EdgeStackProps extends cdk.StackProps {
+  stage?: 'dev' | 'demo' | 'prod';
+}
+
 export class EdgeStack extends cdk.Stack {
   public readonly distribution: cloudfront.IDistribution;
+  public readonly siteBucket: s3.IBucket;
 
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: EdgeStackProps) {
     super(scope, id, props);
 
-    const siteBucket = new s3.Bucket(this, 'WebHostingBucket', {
+    const isProd = props?.stage === 'prod';
+    const removalPolicy = isProd ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
+
+    this.siteBucket = new s3.Bucket(this, 'WebHostingBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+      removalPolicy,
+      autoDeleteObjects: !isProd,
     });
 
     this.distribution = new cloudfront.Distribution(this, 'EdgeDistribution', {
       defaultBehavior: {
-        origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket),
+        origin: origins.S3BucketOrigin.withOriginAccessControl(this.siteBucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
       },
@@ -33,9 +41,20 @@ export class EdgeStack extends cdk.Stack {
       ],
     });
 
-    new cdk.CfnOutput(this, 'CloudFrontDomainName', {
-      value: this.distribution.distributionDomainName,
-      description: 'Edge CloudFront Distribution Domain',
+    new cdk.CfnOutput(this, 'FrontendUrl', {
+      value: `https://${this.distribution.distributionDomainName}`,
+      description: 'Production Frontend CloudFront HTTPS URL',
+      exportName: `ResQSync-FrontendUrl-${props?.stage || 'demo'}`,
+    });
+
+    new cdk.CfnOutput(this, 'CloudFrontDistributionId', {
+      value: this.distribution.distributionId,
+      description: 'CloudFront Distribution ID',
+    });
+
+    new cdk.CfnOutput(this, 'WebsiteBucketName', {
+      value: this.siteBucket.bucketName,
+      description: 'S3 Website Bucket Name',
     });
   }
 }
