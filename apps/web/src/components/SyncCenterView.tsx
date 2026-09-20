@@ -10,6 +10,7 @@ import {
   Zap,
   CheckCircle,
 } from 'lucide-react';
+import { useAppStore } from '../stores/useAppStore';
 
 interface QueuedEvent {
   client_event_id: string;
@@ -53,6 +54,7 @@ export function SyncCenterView({
   onToggleSync,
   onForceSync,
 }: SyncCenterViewProps) {
+  const { addNotification } = useAppStore();
   const [queue, setQueue] = useState<QueuedEvent[]>(DEMO_LOCAL_QUEUE);
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncHistory, setSyncHistory] = useState<string[]>([
@@ -62,7 +64,11 @@ export function SyncCenterView({
 
   const handleSyncNow = () => {
     if (syncStatus === 'OFFLINE') {
-      alert('Cannot synchronize while network is disconnected! Please restore network connectivity first.');
+      addNotification({
+        title: 'SYNC BLOCKED // OFFLINE MODE',
+        message: 'Cannot synchronize while network is disconnected! Please restore network connectivity first.',
+        type: 'warning',
+      });
       return;
     }
 

@@ -11,6 +11,257 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background-color: #0f172a;
+  background-color: #0b0c0e;
   color: #f8fafc;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0d0f12;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e242d;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2d3748;
+}
+
+/* Liquid Wave Animation for Fuel Gauge */
+@keyframes liquidWave {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(0.85);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}
+
+.animate-liquid-wave {
+  animation: liquidWave 4s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+}
+
+.animate-liquid-wave-slow {
+  animation: liquidWave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite reverse;
+}
+
+/* Animated Candy-Stripe Progress Bar */
+@keyframes candyStripe {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}
+
+.animate-candy-stripe {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 24px 24px;
+  animation: candyStripe 1.2s linear infinite;
+}
+
+/* Radar Pulse / Ripple */
+@keyframes radarPing {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2.2);
+    opacity: 0.15;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+.animate-radar-ping {
+  animation: radarPing 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Compass Needle Glow */
+@keyframes compassGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 3px rgba(249, 115, 22, 0.8));
+  }
+  50% {
+    filter: drop-shadow(0 0 7px rgba(249, 115, 22, 1));
+  }
+}
+
+.animate-compass-glow {
+  animation: compassGlow 2s ease-in-out infinite;
+}
+
+/* Glowing Neon Button Pulsing Shadow */
+@keyframes emeraldGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.45), 0 0 30px rgba(16, 185, 129, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.7), 0 0 45px rgba(16, 185, 129, 0.35);
+  }
+}
+
+.animate-emerald-glow {
+  animation: emeraldGlow 2.5s ease-in-out infinite;
+}
+
+/* Cyan Route Glow */
+.route-glow-cyan {
+  filter: drop-shadow(0 0 8px #06b6d4) drop-shadow(0 0 16px rgba(6, 182, 212, 0.6));
+}
+
+/* Amber Route Glow */
+.route-glow-amber {
+  filter: drop-shadow(0 0 8px #f59e0b) drop-shadow(0 0 14px rgba(245, 158, 11, 0.5));
+}
+
+/* Candy stripe color variants */
+.candy-stripe-lime {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #84cc16,
+    #84cc16 10px,
+    #a3e635 10px,
+    #a3e635 20px
+  );
+  background-size: 28px 28px;
+  animation: candyStripe 1s linear infinite;
+}
+
+.candy-stripe-cyan {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #0284c7,
+    #0284c7 10px,
+    #38bdf8 10px,
+    #38bdf8 20px
+  );
+  background-size: 28px 28px;
+  animation: candyStripe 1s linear infinite;
+}
+
+.candy-stripe-rose {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #e11d48,
+    #e11d48 10px,
+    #fb7185 10px,
+    #fb7185 20px
+  );
+  background-size: 28px 28px;
+  animation: candyStripe 1s linear infinite;
+}
+
+.candy-stripe-amber {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #d97706,
+    #d97706 10px,
+    #fbbf24 10px,
+    #fbbf24 20px
+  );
+  background-size: 28px 28px;
+  animation: candyStripe 1s linear infinite;
+}
+
+/* Timeline Pulsing NOW Line */
+@keyframes nowPulse {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px #ef4444);
+  }
+  50% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 2px #ef4444);
+  }
+}
+
+.animate-now-pulse {
+  animation: nowPulse 1.8s ease-in-out infinite;
+}
+
+/* Emergency Vehicle Strobe */
+@keyframes emergencyStrobe {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px #38bdf8) drop-shadow(0 0 20px #ef4444);
+  }
+  50% {
+    filter: drop-shadow(0 0 18px #ef4444) drop-shadow(0 0 30px #38bdf8);
+  }
+}
+
+.animate-strobe {
+  animation: emergencyStrobe 0.8s ease-in-out infinite;
+}
+
+/* Continuous route fluid flow animation */
+@keyframes fluidFlowDash {
+  0% {
+    stroke-dashoffset: 60;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-flow-dash {
+  stroke-dasharray: 8 6;
+  animation: fluidFlowDash 1.2s linear infinite;
+}
+
+/* Tactical Focus Ripple Ring for Selected Map Targets */
+@keyframes focusRipple {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.animate-focus-ripple {
+  animation: focusRipple 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Custom Tactical Glass Scrollbar */
+.tactical-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.tactical-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tactical-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+.tactical-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }

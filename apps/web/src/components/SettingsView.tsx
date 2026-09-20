@@ -8,12 +8,14 @@ import {
   CheckCircle2,
   Shield,
 } from 'lucide-react';
+import { useAppStore } from '../stores/useAppStore';
 
 interface SettingsViewProps {
   onResetDemo?: () => void;
 }
 
 export function SettingsView({ onResetDemo }: SettingsViewProps) {
+  const { addNotification } = useAppStore();
   // Node settings
   const [stationId, setStationId] = useState('STATION-04-SF');
   const [nodeCallSign, setNodeCallSign] = useState('Central Dispatch HQ');
@@ -60,7 +62,11 @@ export function SettingsView({ onResetDemo }: SettingsViewProps) {
           <button
             onClick={() => {
               onResetDemo();
-              alert('Demo state reset to initial conditions: AMB-A12 restored to conflict review.');
+              addNotification({
+                title: 'DEMO STATE RESTORED',
+                message: 'Demo state reset to initial conditions: AMB-A12 restored to conflict review.',
+                type: 'info',
+              });
             }}
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors"
           >
